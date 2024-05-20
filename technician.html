@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technician Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 70px;
+            text-align: center;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Technician Page</h2>
+        <div class="button-container">
+            <button onclick="viewCurrentJobs()">View Current Jobs</button>
+            <button onclick="viewAllJobs()">View All Jobs</button>
+        </div>
+    </div>
+
+    <script>
+        function viewCurrentJobs() {
+            window.location.href = "current-jobs.html";
+        }
+
+        function viewAllJobs() {
+            window.location.href = "all-jobs.html";
+        }
+    </script>
+</body>
+</html>

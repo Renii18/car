@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sidebar Navigation</title>
+<style>
+/* Style for the sidebar */
+.sidebar {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  padding-top: 20px;
+}
+
+/* Style for links inside the sidebar */
+.sidebar a {
+  padding: 10px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+  display: block;
+}
+
+/* Change the color of links on hover */
+.sidebar a:hover {
+  background-color: #555;
+}
+
+/* Style for the content */
+.content {
+  margin-left: 250px; /* Same width as the sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s; /* Add transition for smooth animation */
+}
+
+/* Hide all content sections by default */
+.content > div {
+  display: none;
+}
+
+/* Show only the active content section */
+.content > div.active {
+  display: block;
+}
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <a href="#" onclick="showSection('add-customer')">Add Customer</a>
+  <a href="#" onclick="showSection('customer-search')">Customer Search</a>
+  <a href="#" onclick="showSection('add-parts')">Add Parts and Services</a>
+  <a href="#" onclick="showSection('customer-list')">Customer Lists</a>
+</div>
+
+<div class="content">
+  <div id="add-customer" class="active">
+    <h2>Add Customer</h2>
+    <form>
+      <label for="customer-name">Customer Name:</label><br>
+      <input type="text" id="customer-name" name="customer-name"><br><br>
+      <label for="car-name">Car Name:</label><br>
+      <input type="text" id="car-name" name="car-name"><br><br>
+      <label for="car-number">Car Number:</label><br>
+      <input type="text" id="car-number" name="car-number"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <div id="customer-search">
+    <h2>Customer Search</h2>
+    <form onsubmit="searchCustomers(); return false;">
+        <label for="search-customer-name">Customer Name:</label><br>
+        <input type="text" id="search-customer-name" name="search-customer-name"><br><br>
+        <label for="search-car-number">Car Number:</label><br>
+        <input type="text" id="search-car-number" name="search-car-number"><br><br>
+        <input type="submit" value="Search">
+      </form>
+  </div>
+
+  <div id="add-parts">
+    <h2>Add Parts</h2>
+    <h2>Services</h2>
+    <label for="service">Service:</label>
+    <select id="service">
+        <option value="0">Select Service</option>
+        <option value="50">Wipers - $50</option>
+        <option value="20">Oil Filters - $20</option>
+        <option value="30">Battery Testing - $30</option>
+        <option value="40">Oil Change - $40</option>
+        <option value="25">Air Filter - $25</option>
+        <option value="35">Coolant - $35</option>
+        <option value="45">Tire - $45</option>
+        <option value="15">Cabin Air Filter - $15</option>
+    </select>
+    <button onclick="addService()">Add Service</button>
+
+    <table id="serviceTable">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <h2>Parts</h2>
+    <label for="part">Part:</label>
+    <select id="part">
+        <option value="0">Select Part</option>
+        <option value="100">Brakes - $100</option>
+        <option value="80">Air Filter - $80</option>
+        <option value="120">Steering System - $120</option>
+        <option value="90">Clutch - $90</option>
+        <option value="70">Drive Belt - $70</option>
+        <option value="110">Axle - $110</option>
+        <option value="150">Engine - $150</option>
+    </select>
+    <button onclick="addPart()">Add Part</button>
+
+    <table id="partTable">
+        <thead>
+            <tr>
+                <th>Part</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div>
+        <strong>Total Amount:</strong> <span id="totalAmount">$0</span>
+    </div>
+
+    <script>
+        function addService() {
+            var serviceSelect = document.getElementById("service");
+            var selectedService = serviceSelect.options[serviceSelect.selectedIndex];
+            if (selectedService.value !== "0") {
+                var serviceTable = document.getElementById("serviceTable").getElementsByTagName('tbody')[0];
+                var newRow = serviceTable.insertRow(serviceTable.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.innerHTML = selectedService.text;
+                cell2.innerHTML = "$" + selectedService.value;
+                serviceSelect.value = "0";
+                updateTotalAmount();
+            }
+        }
+
+        function addPart() {
+            var partSelect = document.getElementById("part");
+            var selectedPart = partSelect.options[partSelect.selectedIndex];
+            if (selectedPart.value !== "0") {
+                var partTable = document.getElementById("partTable").getElementsByTagName('tbody')[0];
+                var newRow = partTable.insertRow(partTable.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                cell1.innerHTML = selectedPart.text;
+                cell2.innerHTML = "$" + selectedPart.value;
+                partSelect.value = "0";
+                updateTotalAmount();
+            }
+        }
+
+        function updateTotalAmount() {
+            var serviceAmounts = document.getElementById("serviceTable").getElementsByTagName('tbody')[0];
+            var partAmounts = document.getElementById("partTable").getElementsByTagName('tbody')[0];
+            var totalAmount = 0;
+            for (var i = 0; i < serviceAmounts.rows.length; i++) {
+                totalAmount += parseFloat(serviceAmounts.rows[i].cells[1].innerHTML.slice(1));
+            }
+            for (var i = 0; i < partAmounts.rows.length; i++) {
+                totalAmount += parseFloat(partAmounts.rows[i].cells[1].innerHTML.slice(1));
+            }
+            document.getElementById("totalAmount").innerHTML = "$" + totalAmount.toFixed(2);
+        }
+    </script>
+    
+  </div>
+
+  <div id="customer-list">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+</head>
+<body>
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+        <input type="text" name="firstName" id="firstName" placeholder="First Name" required><br>
+        <input type="text" name="surname" id="surname" placeholder="Surname" required><br>
+        <input type="text" name="carNo" id="carNo" placeholder="Car Number" required><br>
+        <input type="text" name="mobileNumber" id="mobileNumber" placeholder="Mobile Number" required><br>
+        <input type="email" name="email" id="email" placeholder="Email" required><br>
+        <textarea name="address" id="address" placeholder="Address" required></textarea><br>
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <h2>Customer List</h2>
+    <ul id="customerList">
+
+    </ul>
+
+    <script>
+        document.getElementById("signupForm").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+        
+            var firstName = document.getElementById('firstName').value;
+            var surname = document.getElementById('surname').value;
+            var customer = {
+                firstName: firstName,
+                surname: surname
+            };
+            var customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+            customers.push(customer);
+            localStorage.setItem("customers", JSON.stringify(customers));
+            document.getElementById('firstName').value = "";
+            document.getElementById('surname').value = "";
+            updateCustomerList();
+        });
+
+        function updateCustomerList() {
+            var customers = JSON.parse(localStorage.getItem("customers")) || [];
+
+            var customerList = document.getElementById("customerList");
+            customerList.innerHTML = ""; 
+
+            customers.forEach(function(customer) {
+                var listItem = document.createElement("li");
+                listItem.textContent = customer.firstName + " " + customer.surname;
+                customerList.appendChild(listItem);
+            });
+        }
+        updateCustomerList();
+    </script>
+</body>
+</html>
+
+   
+  </div>
+</div>
+
+<script>
+// Function to show a specific section and hide others
+function showSection(sectionId) {
+  var sections = document.querySelectorAll('.content > div');
+  sections.forEach(function(section) {
+    if (section.id === sectionId) {
+      section.classList.add('active');
+    } else {
+      section.classList.remove('active');
+    }
+  });
+}
+function showSuccessMessage() {
+
+  alert('submitted successfully!');
+}
+function searchCustomers() {
+
+  alert('Searching customers...');
+}
+
+</script>
+
+</body>
+</html>

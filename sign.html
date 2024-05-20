@@ -1,0 +1,78 @@
+
+<html>
+<head>
+    <title>Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image:url('https://images.unsplash.com/photo-1613214150333-53afb7561e6d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        }
+        .signup-container {
+            width: 300px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .signup-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .signup-container input[type="text"],
+        .signup-container input[type="number"],
+        .signup-container input[type="email"],
+        .signup-container textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .signup-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form action="category.html" method="post" onsubmit="return signUp()">
+            <input type="text" name="firstName" id="firstName" placeholder="First Name" required><br>
+            <input type="text" name="surname" id="surname" placeholder="Surname" required><br>
+            <input type="text" name="carNo" id="carNo" placeholder="Car Number" required><br>
+            <input type="text" name="mobileNumber" id="mobileNumber" placeholder="Mobile Number" required><br>
+            <input type="email" name="email" id="email" placeholder="Email" required><br>
+            <textarea name="address" id="address" placeholder="Address" required></textarea><br>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+
+    <script>
+        function signUp() {
+            var firstName = document.getElementById('firstName').value;
+            var surname = document.getElementById('surname').value;
+            var carNo = document.getElementById('carNo').value;
+            var mobileNumber = document.getElementById('mobileNumber').value;
+            var email = document.getElementById('email').value;
+            var address = document.getElementById('address').value;
+
+            
+            if (firstName && surname && carNo && mobileNumber && email && address) {
+                alert("Sign up successful!\nFirst Name: " + firstName + "\nSurname: " + surname + "\nCar Number: " + carNo + "\nMobile Number: " + mobileNumber + "\nEmail: " + email + "\nAddress: " + address);
+                return true; 
+            } else {
+                alert("Please fill in all fields!");
+                return false; 
+            }
+        }
+    </script>
+</body>
+</html>
